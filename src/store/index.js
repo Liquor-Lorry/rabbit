@@ -1,72 +1,21 @@
 import { createStore } from "vuex";
+import createPersistedstate from "vuex-persistedstate";
 
-// 模块A
-const moduleA = {
-  state: {
-    username: "ModuleA",
-  },
-  getters: {
-    newName(state) {
-      return state.username + " ！！！";
-    },
-  },
-};
-// 模块B
-const moduleB = {
-  namespaced: true, // 开启命名空间
-  state: {
-    username: "ModuleB",
-  },
-  getters: {
-    newName(state) {
-      return state.username + " ！！！";
-    },
-  },
-  mutations: {
-    updateName(state) {
-      state.username = "moduleBBBBB";
-    },
-  },
-  actions: {
-    updateName(ctx) {
-      // 发送请求
-      setTimeout(() => {
-        ctx.commit("updateName");
-      }, 1500);
-    },
-  },
-};
+// 三个模块 用户、购物车、分类
+import user from "./modules/user";
+import cart from "./modules/cart";
+import category from "./modules/category";
 
 export default createStore({
   modules: {
-    moduleA,
-    moduleB,
+    user,
+    cart,
+    category,
   },
+  plugins: [
+    createPersistedstate({
+      key: "rabbit-lorry-pc-store",
+      paths: ["user", "cart"],
+    }),
+  ],
 });
-
-/* 
-export default createStore({
-  state: {
-    username: "lorry",
-  },
-  getters: {
-    newName(state) {
-      return state.username + " is me !";
-    },
-  },
-  mutations: {
-    updateName(state) {
-      state.username = "justin";
-    },
-  },
-  actions: {
-    updateName(ctx) {
-      // 发送请求
-      setTimeout(() => {
-        ctx.commit("updateName");
-      }, 1000);
-    },
-  },
-  modules: {},
-});
- */

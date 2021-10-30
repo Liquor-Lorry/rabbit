@@ -1,0 +1,11 @@
+// 购物车模块
+
+export default {
+  namespaced: true,
+  state() {
+    return {
+      // 购物车信息集合
+      list: [],
+    };
+  },
+};
