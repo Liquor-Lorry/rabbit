@@ -1,5 +1,5 @@
 <template>
-  <nav class="app-topnav">
+  <nav class="top-nav">
     <div class="container">
       <ul>
         <template v-if="profile.token">
@@ -31,7 +31,7 @@ import { useStore } from "vuex";
 import { computed } from "vue";
 
 export default {
-  name: "AppTopnav",
+  name: "TopNav",
   setup() {
     // 获取用户登录信息才能控制切换导航菜单
     const store = useStore();
@@ -46,7 +46,7 @@ export default {
 };
 </script>
 <style scoped lang="less">
-.app-topnav {
+.top-nav {
   background: #333;
   ul {
     display: flex;

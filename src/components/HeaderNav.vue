@@ -2,47 +2,55 @@
   <div>
     <ul class="header-nav">
       <li class="home"><RouterLink to="/">首页</RouterLink></li>
-      <li>
-        <a href="#">美食</a>
-        <div class="layer">
+      <li v-for="item in list" :key="item.id" @mouseenter="show(item)" @mouseleave="hide(item)">
+        <RouterLink @click="hide(item)" :to="`/category/${item.id}`">{{item.name}}</RouterLink>
+        <div class="layer" :class="{open: item.open}">
           <ul>
-            <li v-for="i in 10" :key="i">
-              <a href="#">
-                <img
-                  src="http://zhoushugang.gitee.io/erabbit-client-pc-static/uploads/img/category%20(4).png"
-                  alt=""
-                />
-                <p>果干</p>
-              </a>
+            <li v-for="sub in item.children" :key="sub.id">
+              <RouterLink @click="hide(item)" :to="`/category/sub/${sub.id}`">
+                <img :src="sub.picture" alt="" />
+                <p>{{sub.name}}</p>
+              </RouterLink>
             </li>
           </ul>
         </div>
       </li>
-      <li><a href="#">餐厨</a></li>
-      <li><a href="#">艺术</a></li>
-      <li><a href="#">电器</a></li>
-      <li><a href="#">居家</a></li>
-      <li><a href="#">洗护</a></li>
-      <li><a href="#">孕婴</a></li>
-      <li><a href="#">服装</a></li>
-      <li><a href="#">杂货</a></li>
     </ul>
   </div>
 </template>
 
 <script>
+import {useStore} from 'vuex'
+import {computed} from 'vue'
 export default {
   name: "HeaderNav",
   // 定义属性
-  data() {
-    return {};
-  },
-  // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {},
-  // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {},
-  // 方法集合
-  methods: {},
+  setup(){
+    const store = useStore()
+    // 拿到vuex的分类列表
+    const list = computed(() => {
+      return store.state.category.list
+    })
+
+    // 跳转的时候不会关闭二级分类，通过数据来控制
+    // 1.veux每个分类加上open数据
+    // 2.vuex提过显示和隐藏函数，修改open数据
+    // 3.组件中使用vuex中的函数，使用时间来绑定，提供一个类名控制显示和隐藏
+
+    const show = (item) => {
+      store.commit('category/show',item.id)
+    }
+    const hide = (item) => {
+      store.commit('category/hide',item.id)
+    }
+
+
+    return {
+      list,
+      show,
+      hide
+    }
+  }
 };
 </script>
 
@@ -52,31 +60,37 @@ export default {
   display: flex;
   justify-content: space-around;
   padding-left: 40px;
-  li {
+  position: relative;
+  z-index: 999;
+  > li {
     margin-right: 40px;
     width: 38px;
     text-align: center;
-    a {
+    > a {
       font-size: 16px;
       line-height: 32px;
       height: 32px;
       display: inline-block;
     }
     &:hover {
-      a {
+      > a {
         color: @xtxColor;
         border-bottom: 1px solid @xtxColor;
       }
       // 显示二级导航
-      > .layer {
-        height: 132px;
-        opacity: 1;
-      }
+      // > .layer {
+      //   height: 132px;
+      //   opacity: 1;
+      // }
     }
   }
 }
 // 二级导航弹层样式
 .layer {
+  &.open{
+    height: 132px;
+    opacity: 1;
+  }
   width: 1240px;
   background-color: #fff;
   position: absolute;
