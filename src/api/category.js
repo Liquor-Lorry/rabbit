@@ -6,3 +6,7 @@ import request from "@/utils/request";
 export const getAllCategory = () => {
   return request("/home/category/head", "get");
 };
+
+export const findBrand = (limit) => {
+  return request('/home/brand', 'get', {limit})
+}
