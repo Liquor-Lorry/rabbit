@@ -6,6 +6,11 @@
         <template v-if="item.children">
           <RouterLink v-for="sub in item.children" :key="sub.id" :to="`/category/sub/${sub.id}`">{{sub.name}}</RouterLink>
         </template> 
+        <!-- 骨架屏 -->
+        <template v-else>
+          <XtxSkeleton width="100px" height="18px" bg="rgba(255,255,255,0.2)" style="margin-right:5px" />
+          <XtxSkeleton width="50px" height="18px" bg="rgba(255,255,255,0.2)" />
+        </template>
       </li>
     </ul>
     <!-- 弹层 -->
@@ -97,7 +102,7 @@ export default {
 .home-category {
   width: 250px;
   height: 500px;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.7);
   position: relative;
   z-index: 99;
   .menu {
@@ -209,6 +214,19 @@ export default {
     .layer {
       display: block;
     }
+  }
+}
+
+// 骨架动画
+.xtx-skeleton {
+  animation: fade 1s linear infinite alternate;
+}
+@keyframes fade {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 1;
   }
 }
 </style>
