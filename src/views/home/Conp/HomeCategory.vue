@@ -1,7 +1,7 @@
 <template>
-  <div class='home-category'>
+  <div class='home-category' @mouseleave="categoryId = null">
     <ul class="menu">
-      <li v-for="item in menuList" :key="item.id" @mouseenter="categoryId = item.id">
+      <li :class="{ active : categoryId === item.id }" v-for="item in menuList" :key="item.id" @mouseenter="categoryId = item.id">
         <RouterLink :to="`/category/${item.id}`">{{item.name}}</RouterLink>
         <template v-if="item.children">
           <RouterLink v-for="sub in item.children" :key="sub.id" :to="`/category/sub/${sub.id}`">{{sub.name}}</RouterLink>
@@ -10,8 +10,9 @@
     </ul>
     <!-- 弹层 -->
      <div class="layer">
-      <h4>分类推荐 <small>根据您的购买或浏览记录推荐</small></h4>
-      <ul v-if="curCategory && curCategory.goods">
+      <h4 v-if="curCategory">{{curCategory.id==='brand'?'品牌':'分类'}}推荐 <small>根据您的购买或浏览记录推荐</small></h4>
+      <!-- 商品 -->
+      <ul v-if="curCategory && curCategory.goods && curCategory.goods.length">
         <li v-for="item in curCategory.goods" :key="item.id">
           <RouterLink to="/">
             <img :src="item.picture" alt="">
@@ -23,6 +24,19 @@
           </RouterLink>
         </li>
       </ul>
+      <!-- 品牌 -->
+      <ul v-if="curCategory && curCategory.brands && curCategory.brands.length">
+        <li class="brand" v-for="item in curCategory.brands" :key="item.id">
+          <RouterLink to="/">
+            <img :src="item.picture" alt="">
+            <div class="info">
+              <p class="place"><i class="iconfont icon-dingwei"></i>{{item.place}}</p>
+              <p class="name ellipsis">{{item.name}}</p>
+              <p class="desc ellipsis-2">{{item.desc}}</p>
+            </div>
+          </RouterLink>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -30,6 +44,8 @@
 <script>
 import { computed, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
+
+import { findBrand } from '@/api/home.js'
 export default {
   name: 'HomeCategory',
   setup(){
@@ -41,7 +57,9 @@ export default {
           children: [{
               id: 'brand-children',
               name: '品牌推荐'
-          }]
+          }],
+          // 品牌列表
+          brands: []
       })
       const menuList = computed(() => {
         // 得到9个分类且每个一级分类下的子分类只有两个
@@ -62,6 +80,14 @@ export default {
       const curCategory = computed(() => {
         return menuList.value.find(item => item.id === categoryId.value)
       })
+
+      // 获取品牌列表数据
+      findBrand().then(data => {
+        brand.brands = data.result
+        console.log(brand.brands)
+      })
+
+
       return { menuList, categoryId, curCategory }
   }
 }
@@ -79,7 +105,7 @@ export default {
       padding-left: 40px;
       height: 50px;
       line-height: 50px;
-      &:hover {
+      &:hover,&.active {
         background: @xtxColor;
       }
       a {
@@ -154,6 +180,25 @@ export default {
               i {
                 font-size: 16px;
               }
+            }
+          }
+        }
+      }
+      // 品牌样式代码
+      li.brand {
+        height: 120px;
+        a {
+          align-items: flex-start;
+          img {
+            width: 120px;
+            height: 100px;
+          }
+          .info {
+            p {
+              margin-top: 8px;
+            }
+            .place {
+              color: #999;
             }
           }
         }

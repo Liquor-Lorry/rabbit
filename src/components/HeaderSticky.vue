@@ -65,8 +65,8 @@ export default {
   .logo {
     width: 200px;
     height: 80px;
-    background: url(../assets/images/logo.png) no-repeat right 2px;
-    background-size: 160px auto;
+    background: url(../assets/images/boy.jpg) no-repeat 50px;
+    background-size: 140px auto;
   }
   .right {
     width: 220px;
