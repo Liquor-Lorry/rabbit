@@ -9,6 +9,7 @@
     </div>
   </div>
   <!-- 新鲜好物 -->
+  <XtxPanel path="/test" />
   <!-- 人气推荐 -->
 </template>
 
@@ -16,11 +17,13 @@
 <script>
 import HomeCategory from './Conp/HomeCategory.vue'
 import HomeBanner from './Conp/HomeBanner.vue'
+// import HomePanel from './Conp/HomePanel.vue'
 export default {
   name: "HomePage",
   components: {
     HomeCategory,
-    HomeBanner
+    HomeBanner,
+    // HomePanel
   }
 };
 </script>
