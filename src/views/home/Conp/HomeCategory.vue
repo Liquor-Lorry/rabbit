@@ -88,7 +88,7 @@ export default {
 
       // 获取品牌列表数据
       findBrand().then(data => {
-        brand.brands = data.result
+        brand.brands = data.result.slice(0,6)
         console.log(brand.brands)
       })
 
@@ -191,12 +191,13 @@ export default {
       }
       // 品牌样式代码
       li.brand {
-        height: 120px;
+        height: 180px;
+        margin-top: 10px;
         a {
           align-items: flex-start;
           img {
             width: 120px;
-            height: 100px;
+            height: 160px;
           }
           .info {
             p {

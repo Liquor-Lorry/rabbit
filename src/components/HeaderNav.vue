@@ -45,11 +45,7 @@ export default {
     }
 
 
-    return {
-      list,
-      show,
-      hide
-    }
+    return { list, show, hide }
   }
 };
 </script>

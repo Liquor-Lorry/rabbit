@@ -39,7 +39,7 @@ export default {
     width: 200px;
     a {
       display: block;
-      height: 132px;
+      height: 126px;
       width: 100%;
       text-indent: -9999px;
       background: url(../assets/images/dog_header.jpg) no-repeat center 0px / contain;
