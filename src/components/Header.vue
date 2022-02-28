@@ -42,7 +42,9 @@ export default {
       height: 126px;
       width: 100%;
       text-indent: -9999px;
-      background: url(../assets/images/dog_header.jpg) no-repeat center 0px / contain;
+      // background: url(../assets/images/boy.jpg) no-repeat center 0px / contain;
+      background: url(../assets/images/boy.jpg) no-repeat 50px;
+      background-size: 140px auto;
     }
   }
 

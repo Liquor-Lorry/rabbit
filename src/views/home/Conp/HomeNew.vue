@@ -6,15 +6,20 @@
                 <XtxPanel path="/" />
             </template>
             <!-- 面板内容 -->
-            <ul class="goods-list">
-                <li v-for="item in goods" :key="item.id">
-                <RouterLink :to="`/product/${item.id}`">
-                    <img :src="item.picture" alt="">
-                    <p class="name ellipsis">{{item.name}}</p>
-                    <p class="price">&yen;{{item.price}}</p>
-                </RouterLink>
-                </li>
-            </ul>
+            <div style="position:relative;height:406px">
+                <Transition name="fade">
+                    <ul v-if="goods.length" class="goods-list">
+                        <li v-for="item in goods" :key="item.id">
+                        <RouterLink :to="`/product/${item.id}`">
+                            <img :src="item.picture" alt="">
+                            <p class="name ellipsis">{{item.name}}</p>
+                            <p class="price">&yen;{{item.price}}</p>
+                        </RouterLink>
+                        </li>
+                    </ul>
+                    <HomeSkeleton v-else />
+                </Transition>
+            </div>
         </HomePanel>
     </div>
 </template>
@@ -22,12 +27,14 @@
 <script>
 import { ref } from 'vue'
 import HomePanel from "./HomePanel.vue"
+import HomeSkeleton from "./HomeSkeleton.vue"
 
 import { findNew } from '@/api/home.js'
 export default {
     name: "HomeNew",
     components: {
-        HomePanel
+        HomePanel,
+        HomeSkeleton
     },
     setup() {
         const goods = ref([])
