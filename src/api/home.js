@@ -18,3 +18,21 @@ export const findBrand = (limit) => {
 export const findBanner = () => { 
     return request('/home/banner', 'get')
 }
+
+
+/**
+ *获取首页面板（新鲜好物）的数据
+ * @return Promise
+ */
+export const findNew = () => {
+    return request('home/new', 'get')
+}
+
+
+/**
+ *获取首页面板（人气推荐）的数据
+ * @return Promise
+ */
+export const findHot = () => {
+    return request('home/hot', 'get')
+  }

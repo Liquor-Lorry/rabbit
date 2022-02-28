@@ -8,7 +8,6 @@
       </div>
       <!-- 默认插槽，面板内容 -->
       <slot />
-      <XtxPanel path="/test" />
     </div>
   </div>
 </template>
