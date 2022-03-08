@@ -12,22 +12,26 @@
   <HomeNew />
   <!-- 人气推荐 -->
   <HomeHot />
+  <!-- 热门品牌 -->
+  <HomeBrand />
 </template>
 
 
 <script>
-import HomeCategory from './Conp/HomeCategory.vue'
-import HomeBanner from './Conp/HomeBanner.vue'
-import HomeNew from './Conp/HomeNew.vue'
-import HomeHot from './Conp/HomeHot.vue'
+import HomeCategory from "./Conp/HomeCategory.vue";
+import HomeBanner from "./Conp/HomeBanner.vue";
+import HomeNew from "./Conp/HomeNew.vue";
+import HomeHot from "./Conp/HomeHot.vue";
+import HomeBrand from "./Conp/HomeBrand.vue";
 export default {
   name: "HomePage",
   components: {
     HomeCategory,
     HomeBanner,
     HomeNew,
-    HomeHot
-  }
+    HomeHot,
+    HomeBrand,
+  },
 };
 </script>
 
