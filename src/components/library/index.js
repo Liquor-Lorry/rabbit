@@ -6,6 +6,7 @@
 import XtxSkeleton from "./xtx-Skeleton.vue";
 import XtxCarousel from "./xtx-Carousel.vue";
 import XtxPanel from "./xtx-Panel.vue";
+import XtxBread from "./xtx-Bread.vue";
 
 import defaultImg from "@/assets/images/qrcode.jpg";
 
@@ -16,6 +17,7 @@ export default {
     app.component(XtxSkeleton.name, XtxSkeleton);
     app.component(XtxCarousel.name, XtxCarousel);
     app.component(XtxPanel.name, XtxPanel);
+    app.component(XtxBread.name, XtxBread);
 
     // 定义指令
     defineDirective(app);
