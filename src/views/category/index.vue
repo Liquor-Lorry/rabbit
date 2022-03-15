@@ -2,9 +2,11 @@
   <div class="top-category">
     <div class="container">
       <!-- 面包屑 -->
-      <XtxBread parentPath="/category/10050000" parentName="电器"
-        >空调</XtxBread
-      >
+      <XtxBread>
+        <xtx-bread-item :to="{ path: '/' }">首页</xtx-bread-item>
+        <xtx-bread-item to="/category/1005001">电器</xtx-bread-item>
+        <xtx-bread-item>空调</xtx-bread-item>
+      </XtxBread>
       <!-- 轮播图 -->
       <!-- 全部分类 -->
       <!-- 推荐商品 -->
@@ -14,9 +16,7 @@
 
 <script>
 export default {
-  components: {
-    name: "TopCategory",
-  },
+  name: "TopCategory",
   // 定义属性
   data() {
     return {};
@@ -25,4 +25,7 @@ export default {
 </script>
 
 <style lang='less' scoped>
+.top-category {
+  height: 300px;
+}
 </style>
