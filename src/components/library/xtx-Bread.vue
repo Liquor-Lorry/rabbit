@@ -20,7 +20,6 @@ export default {
     const dymanicItems = [];
     items.forEach((item, i) => {
       dymanicItems.push(item);
-      console.log(dymanicItems);
       if (i < items.length - 1) {
         dymanicItems.push(h("i", { class: "iconfont icon-angle-right" }));
       }

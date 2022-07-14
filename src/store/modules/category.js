@@ -33,7 +33,6 @@ export default {
       // 获取成功后提交mutations进行数据修改
       // commit("setList", data.result);
       const { result } = await getAllCategory();
-      console.log(result)
       result.forEach(top => {
         top.open = false
       })

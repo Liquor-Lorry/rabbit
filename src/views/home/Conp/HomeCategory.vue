@@ -112,7 +112,6 @@ export default {
     findBrand(6).then((data) => {
       // brand.brands = data.result.slice(0,6)
       brand.brands = data.result;
-      console.log(brand.brands);
     });
 
     return { menuList, categoryId, curCategory };
