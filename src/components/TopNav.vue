@@ -9,7 +9,7 @@
               {{ profile.account }}
             </a>
           </li>
-          <li><a href="javascript:;">退出登录</a></li>
+          <li><a @click="logout()" href="javascript:;">退出登录</a></li>
         </template>
         <template v-else>
           <li><router-link to="/login">请先登录</router-link></li>
@@ -29,6 +29,7 @@
 <script>
 import { useStore } from "vuex";
 import { computed } from "vue";
+import { useRouter } from 'vue-router'
 
 export default {
   name: "TopNav",
@@ -39,9 +40,12 @@ export default {
     const profile = computed(() => {
       return store.state.user.profile;
     });
-    return {
-      profile,
-    };
+    const router = useRouter()
+    const logout = () => {
+      store.commit('user/setUser',{})
+      router.push('/login')
+    }
+    return { profile, logout}
   },
 };
 </script>

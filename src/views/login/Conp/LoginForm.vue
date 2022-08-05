@@ -90,7 +90,7 @@ export default {
 
     // pause 暂停 resume 开始
     // useIntervalFn(回调函数,执行间隔,是否立即开启)
-    const time = ref(0)
+    const time = ref(1)
     const { pause, resume } = useIntervalFn(() => {
       time.value--
       if (time.value <= 0) {
@@ -177,11 +177,15 @@ export default {
       if (valid === true) {
         // 通过
         if (time.value === 0) {
-        // 没有倒计时才可以发送
-          await userMobileLoginMsg(form.mobile)
-          Message({ type: 'success', text: '发送成功' })
-          time.value = 60
-          resume()
+          try {
+            // 没有倒计时才可以发送
+            await userMobileLoginMsg(form.mobile)
+            Message({ type: 'success', text: '发送成功' })
+            time.value = 60
+            resume()
+          } catch (e) {
+            Message({ type: 'error', text: e.response.data.message || '验证码发送失败' })
+          }
         }
       } else {
         // 失败，使用vee的错误函数显示错误信息 setFieldError(字段,错误信息)
