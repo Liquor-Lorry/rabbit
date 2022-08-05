@@ -5,6 +5,9 @@
 
 import defaultImg from "@/assets/images/qrcode.jpg";
 
+import Message from './message'
+
+
 // import XtxSkeleton from "./xtx-Skeleton.vue";
 // import XtxCarousel from "./xtx-Carousel.vue";
 // import XtxPanel from "./xtx-Panel.vue";
@@ -42,6 +45,9 @@ export default {
 
     // 定义指令
     defineDirective(app);
+
+    // 挂载全局的属性，能够通过组件实例调用的属性   this.$message
+    app.config.globalProperties.$message = Message// 原型函数
   }
 };
 

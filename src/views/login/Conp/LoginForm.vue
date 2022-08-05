@@ -54,7 +54,7 @@
         </div>
           <div class="error" v-if="errors.isAgree"><i class="iconfont icon-warning" />{{errors.isAgree}}</div>
       </div>
-      <a @click="login" href="javascript:;" class="btn">登录</a>
+      <a @click="login" class="btn">登录</a>
     </Form>
     <div class="action">
       <a href="https://graph.qq.com/oauth2.0/authorize?client_id=100556005&response_type=token&scope=all&redirect_uri=http%3A%2F%2Fwww.corho.com%3A8080%2F%23%2Flogin%2Fcallback">
@@ -70,15 +70,77 @@
 </template>
 
 <script>
+import { userAccountLogin, userMobileLogin, userMobileLoginMsg } from "@/api/user.js";
+
 import { Form, Field } from 'vee-validate'
 import schema from '@/utils/vee-validate-schema'
-import { reactive, ref, watch } from 'vue'
+
+import { reactive, ref, watch, onUnmounted  } from 'vue'
+import { useIntervalFn } from '@vueuse/core'
+import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
+
+import Message from '@/components/library/message'
 export default {
   name: 'LoginForm',
   components: { Form, Field },
   setup () {
     // 是否短信登录
     const isMsgLogin = ref(false)
+
+    // pause 暂停 resume 开始
+    // useIntervalFn(回调函数,执行间隔,是否立即开启)
+    const time = ref(0)
+    const { pause, resume } = useIntervalFn(() => {
+      time.value--
+      if (time.value <= 0) {
+        pause()
+      }
+    }, 1000, false)
+
+    onUnmounted(() => {
+      pause()
+    })
+
+    // 使用store
+    const store = useStore()
+    // 使用router
+    const router = useRouter()
+    // 使用route
+    const route = useRoute()
+    // 登录提交
+    const login = async () => {
+      // 整体校验 Form组件提供了一个 validate 函数作为整体表单校验，当是返回的是一个promise
+      const valid = await formCom.value.validate()
+      if (valid) {
+        // 发送请求
+        let data = null
+        try {
+          data = isMsgLogin.value ? await userMobileLogin(form) : await userAccountLogin(form)
+          // if (!isMsgLogin.value) {
+          //   // 帐号登录
+          //   data = await userAccountLogin(form)
+          // } else {
+          //   // 短信登录
+          //   // 1. 定义两个API  短信登录，获取短信验证码
+          //   // 2. 实现发送短信验证码发送功能
+          //   // 3. 完成手机号短信验证码登录逻辑
+          //   data = await userMobileLogin(form)
+          // }
+        } catch (e) {
+          Message({ type: 'error', text: e.response.data.message || '登录失败' })
+        }
+        // 成功
+        // 1. 存储信息
+        const { id, account, nickname, avatar, token, mobile } = data.result
+        store.commit('user/setUser', { id, account, nickname, avatar, token, mobile })
+        // 2. 提示
+        Message({ type: 'success', text: '登录成功' })
+        // 3. 跳转
+        router.push(route.query.redirectUrl || '/')
+      }
+    }
+
     // 表单信息对象
     const form = reactive({
       isAgree: true,
@@ -109,14 +171,25 @@ export default {
       formCom.value.resetForm()
     })
 
-     // 需要在点击登录的时候对整体表单进行校验
-    const login = async () => {
-      // Form组件提供了一个 validate 函数作为整体表单校验，当是返回的是一个promise
-      const valid = await formCom.value.validate()
-      console.log(valid)
+    // 发送短信
+    const send = async () => {
+      const valid = mySchema.mobile(form.mobile)
+      if (valid === true) {
+        // 通过
+        if (time.value === 0) {
+        // 没有倒计时才可以发送
+          await userMobileLoginMsg(form.mobile)
+          Message({ type: 'success', text: '发送成功' })
+          time.value = 60
+          resume()
+        }
+      } else {
+        // 失败，使用vee的错误函数显示错误信息 setFieldError(字段,错误信息)
+        formCom.value.setFieldError('mobile', valid)
+      }
     }
 
-    return { isMsgLogin, form, schema:mySchema, formCom, login }
+    return { isMsgLogin, form, schema:mySchema, formCom, login, time, send }
   }
 }
 </script>
