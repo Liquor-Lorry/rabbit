@@ -21,7 +21,7 @@
         @click="changeSort('evaluateNum')"
         >评论最多</a
       >
-      <a @click="changeSort('price')" href="javascript:;">
+      <a @click="changeSort('price')">
         价格排序
         <i
           class="arrow up"

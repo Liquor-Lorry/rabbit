@@ -17,7 +17,7 @@
           <img v-lazy="cate.picture" alt="" />
           <strong class="label">
             <span>{{ cate.name }}馆</span>
-            <span>{{ cate.saleInfo }}</span>
+            <span :title="cate.saleInfo" style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap;">{{ cate.saleInfo }}</span>
           </strong>
         </RouterLink>
         <ul class="goods-list">

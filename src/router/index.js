@@ -5,6 +5,7 @@ const Layout = () => import("@/views/Layout");
 const Home = () => import("@/views/home");
 const TopCategory = () => import("@/views/category/index");
 const SubCategory = () => import("@/views/category/sub");
+const Login = () => import('@/views/login/index')
 
 // 路由规则
 const routes = [
@@ -17,6 +18,7 @@ const routes = [
       { path: "/category/sub/:id", component: SubCategory },
     ],
   },
+  { path: "/login", component: Login },
 ];
 
 const router = createRouter({
